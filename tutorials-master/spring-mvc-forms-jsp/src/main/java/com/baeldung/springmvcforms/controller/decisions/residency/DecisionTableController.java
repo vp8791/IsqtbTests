@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.baeldung.springmvcforms.domain.DecisionTable;
-import com.baeldung.springmvcforms.domain.Exam;
 
 @Controller
 public class DecisionTableController {
@@ -30,62 +28,12 @@ public class DecisionTableController {
         model.addAttribute("indianResident", decisionTable.isIndianResident());
         model.addAttribute("married", decisionTable.isMarried());
         model.addAttribute("age", decisionTable.getAge());
-        model.addAttribute("issueMemberShip", issueMemberShip(decisionTable)); 
-        model.addAttribute("offer10PercentDiscount", issue10PercentDiscount(decisionTable)); 
+        model.addAttribute("issueMemberShip", DecisionControlUtils.issueMemberShip(decisionTable)); 
+       model.addAttribute("offer10PercentDiscount", DecisionControlUtils.offer10PercentDiscount(decisionTable)); 
         return "decisionTableView";
     }
     
-    private boolean issueMemberShip(DecisionTable decisionTable) {
-    	//Rule1
-    	if(!decisionTable.isIndianResident()) { 
-    		return false;
-    	}
-    	
-    	//Rule2
-    	if(decisionTable.isIndianResident() && !(decisionTable.getAge() <18 || decisionTable.getAge() >55)) {
-    	//if(decisionTable.isIndianResident() && !(decisionTable.getAge() >=18 && decisionTable.getAge() <=55) ){
-    		return false;
-    	}
-    	
-    	//Rule3
-    	if(decisionTable.isIndianResident() && (decisionTable.getAge() >=18 && decisionTable.getAge() <=55) && !decisionTable.isMarried()){
-    		return true;
-    	}
-    	
-    	//Rule 4
-    	if(decisionTable.isIndianResident() && (decisionTable.getAge() >=18 && decisionTable.getAge() <=55) && decisionTable.isMarried()){
-    		return true;
-    	}
-    	
-    	//None of the Rule Matched
-    	return false;
-    	
-    }
-    
-    private boolean issue10PercentDiscount(DecisionTable decisionTable) {
-    	//Rule1
-    	if(!decisionTable.isIndianResident()) { 
-    		return false;
-    	}
-    	
-    	//Rule2
-    	if(decisionTable.isIndianResident() && !(decisionTable.getAge() <18 || decisionTable.getAge() >55)) {
-    	//if(decisionTable.isIndianResident() && !(decisionTable.getAge() >=18 && decisionTable.getAge() <=55) ){
-    		return false;
-    	}
-    	
-    	//Rule3
-    	if(decisionTable.isIndianResident() && (decisionTable.getAge() >=18 && decisionTable.getAge() <=55) && !decisionTable.isMarried()){
-    		return true;
-    	}
-    	
-    	//Rule 4
-    	if(decisionTable.isIndianResident() && (decisionTable.getAge() >=18 && decisionTable.getAge() <=55) && decisionTable.isMarried()){
-    		return false;
-    	}
-    	
-    	//None of the Rule Matched
-    	return false;
-    }
+   
+   
 
 }
